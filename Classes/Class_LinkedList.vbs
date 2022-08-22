@@ -1,3 +1,5 @@
+'Item
+
 Option Explicit
 
 Class LinkedListNode
@@ -7,10 +9,10 @@ Class LinkedListNode
 	Public List
 	
 	Private Sub Class_Initialize()
-		[Next] = Null
-		Previous = Null
+		Set [Next] = Nothing
+		Set Previous = Nothing
 		Value = Null
-		List = Null
+		Set List = Nothing
 	End Sub
 End Class
 

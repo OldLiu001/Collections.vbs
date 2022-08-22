@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+	<component id="VectorGenerator">
+		<?component error="true" debug="true"?>
+		<registration
+			description="Vector Class Generator"
+			progid="LinearAlgebra.VectorGenerator"
+			version="0.01"
+			classid="{20011228-5218-767e-8d85-632171029021}"
+		/>
+		<public>
+			<method name="Init">
+				<PARAMETER name="avarRawVector" />
+			</method>
+			<method name="Zero">
+				<PARAMETER name="lngLength" />
+			</method>
+		</public>
+		<script language="VBScript" src="Classes/Class_Vector.vbs" />
+		<script language="VBScript" src="Classes/Class_VectorGenerator.vbs" />
+		<script language="VBScript">
+			<![CDATA[
+				Option Explicit
+
+				Dim objVectorGenerator
+				Set objVectorGenerator = New VectorGenerator
+
+				Public Function Init(ByRef avarRawVector)
+					Set Init = objVectorGenerator.Init(avarRawVector)
+				End Function
+
+				Public Function Zero(ByRef lngLength)
+					Set Zero = objVectorGenerator.Zero(lngLength)
+				End Function
+			]]>
+		</script>
+	</component>
+	<component id="MatrixGenerator">
+		<?component error="true" debug="true"?>
+		<registration
+			description="Matrix Class Generator"
+			progid="LinearAlgebra.MatrixGenerator"
+			version="1.00"
+			classid="{20011228-5218-767e-8d85-632171029002}"
+		/>
+		<public>
+			<method name="Init">
+				<PARAMETER name="avarRawMatrix" />
+			</method>
+			<method name="Zero">
+				<PARAMETER name="lngRowLength" />
+				<PARAMETER name="lngColumnLength" />
+			</method>
+			<method name="Identity">
+				<PARAMETER name="lngDimension" />
+			</method>
+		</public>
+		<script language="VBScript" src="Classes/Class_Vector.vbs" />
+		<script language="VBScript" src="Classes/Class_VectorGenerator.vbs" />
+		<script language="VBScript" src="Classes/Class_Matrix.vbs" />
+		<script language="VBScript" src="Classes/Class_MatrixGenerator.vbs" />
+		<script language="VBScript" src="Classes/Class_LinearSystem.vbs" />
+		<script language="VBScript">
+			<![CDATA[
+				Option Explicit
+				Dim objMatrixGenerator
+				Set objMatrixGenerator = New MatrixGenerator
+				
+				Public Function Init(ByRef avarRawMatrix)
+					Set Init = objMatrixGenerator.Init(avarRawMatrix)
+				End Function
+				
+				Public Function Zero(ByRef lngRowLength, ByRef lngColumnLength)
+					Set Zero = objMatrixGenerator.Zero(lngRowLength, lngColumnLength)
+				End Function
+				
+				Public Function Identity(ByRef lngDimension)
+					Set Identity = objMatrixGenerator.Identity(lngDimension)
+				End Function
+			]]>
+		</script>
+	</component>
+	<component id="LinearSystem">
+		<?component error="true" debug="true"?>
+		<registration
+			description="Linear System Class"
+			progid="LinearAlgebra.LinearSystem"
+			version="1.00"
+			classid="{20011228-5218-767e-8d85-632171029003}"
+		/>
+		<public>
+		</public>
+		<script language="VBScript" src="Classes/Class_Vector.vbs" />
+		<script language="VBScript" src="Classes/Class_VectorGenerator.vbs" />
+		<script language="VBScript" src="Classes/Class_Matrix.vbs" />
+		<script language="VBScript" src="Classes/Class_MatrixGenerator.vbs" />
+		<script language="VBScript" src="Classes/Class_LinearSystem.vbs" />
+	</component>
+</package>
