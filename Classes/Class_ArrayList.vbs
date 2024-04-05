@@ -1,7 +1,6 @@
 'Capacity
 'Count
 'Item[Int32]
-
 'Add(Object)
 'Clear()
 'Clone()

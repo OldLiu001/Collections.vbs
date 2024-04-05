@@ -273,3 +273,6 @@ Class LinkedList
 		Call Remove(Last())
 	End Sub
 End Class
+Dim l
+Set l=New LinkedList
+l.AddFirst 3

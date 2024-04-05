@@ -30,7 +30,7 @@ Class SortedList ' AVL Tree
 	End Property
 	
 	Public Property Get Item(varKey)
-		[].Set Item, RecursionGet(objRoot, varKey)
+		[].Set Item, Get_(objRoot, varKey)
 	End Property
 	
 	Private varTemp
@@ -38,46 +38,46 @@ Class SortedList ' AVL Tree
 		[].Set varTemp, varValue
 	End Function
 	
-	Private Function RecursionGet(objNode, varKey)
+	Private Function Get_(objNode, varKey)
 		If TypeName(objNode) = "Nothing" Then
-			[].Set RecursionGet, Empty
+			[].Set Get_, Empty
 			Exit Function
 		End If
 		
 		If varKey < objNode.Key Then
-			[].Set RecursionGet, RecursionGet(objNode.Left, varKey)
+			[].Set Get_, Get_(objNode.Left, varKey)
 		ElseIf varKey > objNode.Key Then
-			[].Set RecursionGet, RecursionGet(objNode.Right, varKey)
+			[].Set Get_, Get_(objNode.Right, varKey)
 		Else
-			[].Set RecursionGet, objNode.Value
+			[].Set Get_, objNode.Value
 		End If
 	End Function
 	
 	Public Property Set Item(varKey, objValue)
-		Set objRoot = RecursionAdd(objRoot, varKey, objValue, True)
+		Set objRoot = Add_(objRoot, varKey, objValue, True)
 	End Property
 	
 	Public Property Let Item(varKey, varValue)
-		Set objRoot = RecursionAdd(objRoot, varKey, varValue, True)
+		Set objRoot = Add_(objRoot, varKey, varValue, True)
 	End Property
 	
 	Public Sub Add(varKey, varValue)
-		Set objRoot = RecursionAdd(objRoot, varKey, varValue, False)
+		Set objRoot = Add_(objRoot, varKey, varValue, False)
 	End Sub
 	
-	Private Function RecursionAdd(objNode, varKey, varValue, boolAllowCover)
+	Private Function Add_(objNode, varKey, varValue, boolAllowCover)
 		If TypeName(objNode) = "Nothing" Then
-			Set RecursionAdd = NewNode(varKey, varValue)
+			Set Add_ = NewNode(varKey, varValue)
 			Exit Function
 		End If
 		
 		If varKey < objNode.Key Then
 			Set objNode.Left = _
-				RecursionAdd(objNode.Left, varKey, varValue, boolAllowCover)
+				Add_(objNode.Left, varKey, varValue, boolAllowCover)
 			Update objNode
 		ElseIf varKey > objNode.Key Then
 			Set objNode.Right = _
-				RecursionAdd(objNode.Right, varKey, varValue, boolAllowCover)
+				Add_(objNode.Right, varKey, varValue, boolAllowCover)
 			Update objNode
 		Else
 			[].Assert boolAllowCover, "SortedList", "Key exists."
@@ -88,23 +88,23 @@ Class SortedList ' AVL Tree
 			Case 2
 				If GetHeight(objNode.Left.Left) > GetHeight(objNode.Left.Right) Then
 					' Left Left
-					Set RecursionAdd = RightRotate(objNode)
+					Set Add_ = RightRotate(objNode)
 				Else
 					' Left Right
 					Set objNode.Left = LeftRotate(objNode.Left)
-					Set RecursionAdd = RightRotate(objNode)
+					Set Add_ = RightRotate(objNode)
 				End If
 			Case -2
 				If GetHeight(objNode.Right.Right) > GetHeight(objNode.Right.Left) Then
 					' Right Right
-					Set RecursionAdd = LeftRotate(objNode)
+					Set Add_ = LeftRotate(objNode)
 				Else
 					' Right Left
 					Set objNode.right = RightRotate(objNode.Right)
-					Set RecursionAdd = LeftRotate(objNode)
+					Set Add_ = LeftRotate(objNode)
 				End If
 			Case Else
-				Set RecursionAdd = objNode
+				Set Add_ = objNode
 		End Select
 	End Function
 	
@@ -191,21 +191,21 @@ Class SortedList ' AVL Tree
 	End Function
 	
 	Public Function Contains(varKey)
-		Contains = RecursionContains(objRoot, varKey)
+		Contains = Contains_(objRoot, varKey)
 	End Function
 	
-	Private Function RecursionContains(objNode, varKey)
+	Private Function Contains_(objNode, varKey)
 		If TypeName(objNode) = "Nothing" Then
-			[].Set RecursionContains, False
+			[].Set Contains_, False
 			Exit Function
 		End If
 		
 		If varKey < objNode.Key Then
-			[].Set RecursionContains, RecursionContains(objNode.Left, varKey)
+			[].Set Contains_, Contains_(objNode.Left, varKey)
 		ElseIf varKey > objNode.Key Then
-			[].Set RecursionContains, RecursionContains(objNode.Right, varKey)
+			[].Set Contains_, Contains_(objNode.Right, varKey)
 		Else
-			[].Set RecursionContains, True
+			[].Set Contains_, True
 		End If
 	End Function
 	
@@ -214,21 +214,21 @@ Class SortedList ' AVL Tree
 	End Function
 	
 	Public Function ContainsValue(varValue)
-		ContainsValue = RecursionContainsValue(objRoot, varValue)
+		ContainsValue = ContainsValue_(objRoot, varValue)
 	End Function
 	
-	Private Function RecursionContainsValue(objNode, varValue)
+	Private Function ContainsValue_(objNode, varValue)
 		If TypeName(objNode) = "Nothing" Then
-			RecursionContainsValue = False
+			ContainsValue_ = False
 			Exit Function
 		End If
 		
 		If objNode.Value = varValue Then
-			RecursionContainsValue = True
+			ContainsValue_ = True
 		Else
-			RecursionContainsValue = _
-				RecursionContainsValue(objNode.Left, varValue) Or _
-				RecursionContainsValue(objNode.Right, varValue)
+			ContainsValue_ = _
+				ContainsValue_(objNode.Left, varValue) Or _
+				ContainsValue_(objNode.Right, varValue)
 		End If
 	End Function
 	
@@ -236,21 +236,18 @@ Class SortedList ' AVL Tree
 		[].Assert Count() > lngIndex And lngIndex >= 0, _
 			"SortedList", "Invaild index."
 		
-		GetByIndex = RecursionGetByIndex(objRoot, lngIndex)
+		GetByIndex = GetByIndex_(objRoot, lngIndex)
 	End Function
 	
-	Private Function RecursionGetByIndex(objNode, lngIndex)
-		'[].Assert TypeName(objNode) <> "Nothing", _
-		'	"SortedList", "Invaild index."
-		
+	Private Function GetByIndex_(objNode, lngIndex)
 		If lngIndex - GetSize(objNode.Left) < 0 Then
-			[].Set RecursionGetByIndex, _
-				RecursionGetByIndex(objNode.Left, lngIndex)
+			[].Set GetByIndex_, _
+				GetByIndex_(objNode.Left, lngIndex)
 		ElseIf lngIndex - GetSize(objNode.Left) > 0 Then
-			[].Set RecursionGetByIndex, _
-				RecursionGetByIndex(objNode.Right, lngIndex - GetSize(objNode.Left))
+			[].Set GetByIndex_, _
+				GetByIndex_(objNode.Right, lngIndex - GetSize(objNode.Left))
 		Else
-			[].Set RecursionGetByIndex, objNode.Value
+			[].Set GetByIndex_, objNode.Value
 		End If
 	End Function
 	
@@ -258,43 +255,43 @@ Class SortedList ' AVL Tree
 		[].Assert Count() > lngIndex And lngIndex >= 0, _
 			"SortedList", "Invaild index."
 		
-		GetByIndex = RecursionGetKey(objRoot, lngIndex)
+		GetByIndex = GetKey_(objRoot, lngIndex)
 	End Function
 	
-	Private Function RecursionGetKey(objNode, lngIndex)
+	Private Function GetKey_(objNode, lngIndex)
 		'[].Assert TypeName(objNode) <> "Nothing", _
 		'	"SortedList", "Invaild index."
 		
 		If lngIndex - GetSize(objNode.Left) < 0 Then
-			[].Set RecursionGetKey, _
-				RecursionGetKey(objNode.Left, lngIndex)
+			[].Set GetKey_, _
+				GetKey_(objNode.Left, lngIndex)
 		ElseIf lngIndex - GetSize(objNode.Left) > 0 Then
-			[].Set RecursionGetKey, _
-				RecursionGetKey(objNode.Right, lngIndex - GetSize(objNode.Left))
+			[].Set GetKey_, _
+				GetKey_(objNode.Right, lngIndex - GetSize(objNode.Left))
 		Else
-			[].Set RecursionGetKey, objNode.Key
+			[].Set GetKey_, objNode.Key
 		End If
 	End Function
 	
 	Public Function IndexOfKey(varKey)
-		IndexOfKey = RecursionIndexOfKey(objRoot, varKey)
+		IndexOfKey = IndexOfKey_(objRoot, varKey)
 	End Function
 	
-	Private Function RecursionIndexOfKey(objNode, varKey)
+	Private Function IndexOfKey_(objNode, varKey)
 		If TypeName(objNode) = "Nothing" Then
-			RecursionIndexOfKey = -1
+			IndexOfKey_ = -1
 			Exit Function
 		End If
 		
 		If varKey < objNode.Key Then
-			RecursionIndexOfKey = _
-				RecursionIndexOfKey(objNode.Left, varKey)
+			IndexOfKey_ = _
+				IndexOfKey_(objNode.Left, varKey)
 		ElseIf varKey > objNode.Key Then
-			SetTemp RecursionIndexOfKey(objNode.Left, varKey)
+			SetTemp IndexOfKey_(objNode.Left, varKey)
 			If varTemp = -1 Then
-				RecursionIndexOfKey = -1
+				IndexOfKey_ = -1
 			Else
-				RecursionIndexOfKey = varTemp + GetSize(objNode.Left)
+				IndexOfKey_ = varTemp + GetSize(objNode.Left)
 			End If
 		Else
 	End Function
