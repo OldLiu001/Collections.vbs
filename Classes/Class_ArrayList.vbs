@@ -37,6 +37,22 @@ Class ArrayList
 			varDest = varSrc
 		End If
 	End Sub
+
+
+	Private Sub Inc(ByRef lngValue)
+		lngValue = lngValue + 1
+	End Sub
+
+	Private Sub Dec(ByRef lngValue)
+		lngValue = lngValue - 1
+	End Sub
+
+	Private Sub Swap(ByRef varA, ByRef varB)
+		Dim varTemp
+		Assign varTemp, varA
+		Assign varA, varB
+		Assign varB, varTemp
+	End Sub
 	
 	Private Sub Class_Initialize()
 		ReDim arrData(0)
@@ -58,15 +74,15 @@ Class ArrayList
 	End Property
 	
 	Public Property Let Item(lngIndex, varElement)
-		[].Assert lngIndex >= 0 And lngIndex < lngCount, _
+		Assert lngIndex >= 0 And lngIndex < lngCount, _
 			"ArrayList", "Invaild Index. Expect 0 <= lngIndex < lngCount."
-		[].Set arrData(lngIndex), varElement
+		Assign arrData(lngIndex), varElement
 	End Property
 	
 	Public Property Set Item(lngIndex, objElement)
-		[].Assert lngIndex >= 0 And lngIndex < lngCount, _
+		Assert lngIndex >= 0 And lngIndex < lngCount, _
 			"ArrayList", "Invaild Index. Expect 0 <= lngIndex < lngCount."
-		[].Set arrData(lngIndex), objElement
+		Assign arrData(lngIndex), objElement
 	End Property
 	
 	Public Function Add(varValue)
@@ -87,11 +103,11 @@ Class ArrayList
 	End Function
 	
 	Public Function GetRange(lngIndex, lngLength)
-		[].Assert lngLength >= 0, _
+		Assert lngLength >= 0, _
 			"ArrayList", "Expect lngLength >= 0."
-		[].Assert lngIndex >= 0 And lngIndex <= lngCount, _
+		Assert lngIndex >= 0 And lngIndex <= lngCount, _
 			"ArrayList", "Invaild Index. Expect 0 <= lngIndex <= lngCount."
-		[].Assert lngIndex + lngLength <= lngCount, _
+		Assert lngIndex + lngLength <= lngCount, _
 			"ArrayList", "Invaild Range. Expect lngIndex + lngLength <= lngCount."
 		
 		Set GetRange = New ArrayList
@@ -116,7 +132,7 @@ Class ArrayList
 	End Function
 	
 	Public Sub Insert(lngIndex, varElement)
-		[].Assert lngIndex >= 0 And lngIndex <= lngCount, _
+		Assert lngIndex >= 0 And lngIndex <= lngCount, _
 			"ArrayList", "Invaild Index. Expect 0 <= lngIndex <= lngCount."
 		
 		If UBound(arrData) = lngCount - 1 Then
@@ -126,11 +142,11 @@ Class ArrayList
 		
 		Dim i
 		For i = lngCount - 1 To lngIndex Step -1
-			[].Set arrData(i + 1), arrData(i)
+			Assign arrData(i + 1), arrData(i)
 		Next
 		
-		[].Set arrData(lngIndex), varElement
-		[].Inc lngCount
+		Assign arrData(lngIndex), varElement
+		Inc lngCount
 	End Sub
 	
 	Public Function LastIndexOf(varElement)
@@ -156,15 +172,15 @@ Class ArrayList
 	End Sub
 	
 	Public Sub RemoveAt(lngIndex)
-		[].Assert lngIndex >= 0 And lngIndex < lngCount, _
+		Assert lngIndex >= 0 And lngIndex < lngCount, _
 			"ArrayList", "Invaild Index. Expect 0 <= Index < lngCount."
 		
 		Dim i
 		For i = lngIndex + 1 To lngCount - 1
-			[].Set arrData(i - 1), arrData(i)
+			Assign arrData(i - 1), arrData(i)
 		Next
 		
-		[].Dec lngCount
+		Dec lngCount
 		
 		If Capacity() \ 3 = lngCount - 1 Then
 			' arrData is sparse, free some memory.
@@ -173,18 +189,18 @@ Class ArrayList
 	End Sub
 	
 	Public Sub RemoveRange(lngIndex, lngLength)
-		[].Assert lngLength >= 0, _
+		Assert lngLength >= 0, _
 			"ArrayList", "Expect lngLength >= 0."
-		[].Assert lngIndex >= 0 And lngIndex <= lngCount, _
+		Assert lngIndex >= 0 And lngIndex <= lngCount, _
 			"ArrayList", "Invaild Index. Expect 0 <= lngIndex <= lngCount."
-		[].Assert lngIndex + lngLength <= lngCount, _
+		Assert lngIndex + lngLength <= lngCount, _
 			"ArrayList", "Invaild Range. Expect lngIndex + lngLength <= lngCount."
 		
 		Dim i
 		i = 0
 		While i + lngIndex + lngLength < lngCount
-			[].Set arrData(i + lngIndex), arrData(i + lngIndex + lngLength)
-			[].Inc i
+			Assign arrData(i + lngIndex), arrData(i + lngIndex + lngLength)
+			Inc i
 		Wend
 		
 		lngCount = lngCount - lngLength
@@ -195,7 +211,7 @@ Class ArrayList
 		
 		Dim varTemp
 		For i = 1 To lngCount \ 2
-			[].Swap arrData(i - 1), arrData(lngCount - i)
+			Swap arrData(i - 1), arrData(lngCount - i)
 		Next
 	End Sub
 	
