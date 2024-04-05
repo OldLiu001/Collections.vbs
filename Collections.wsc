@@ -15,7 +15,6 @@
 			<get internalName="NewArrayList" />
 		</property>
 	</public>
-	<script language="VBScript" src="Classes/Class_LinkedList.vbs" />
 	<script language="VBScript" src="Classes/Class_ArrayList.vbs" />
 	<script language="VBScript">
 		<![CDATA[

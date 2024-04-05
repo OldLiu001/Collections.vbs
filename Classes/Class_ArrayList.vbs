@@ -23,11 +23,22 @@ Option Explicit
 Class ArrayList
 	Private lngCount
 	Private arrData()
-	Private []
+
+	Private Sub Assert(boolCondition, strSource, strMessage)
+		If Not boolCondition Then
+			Err.Raise 5, strSource, strMessage
+		End If
+	End Sub
+
+	Private Sub Assign(ByRef varDest, ByVal varSrc)
+		If IsObject(varSrc) Then
+			Set varDest = varSrc
+		Else
+			varDest = varSrc
+		End If
+	End Sub
 	
 	Private Sub Class_Initialize()
-		Set [] = CreateObject("Brackets")
-		
 		ReDim arrData(0)
 		lngCount = 0
 	End Sub
@@ -41,9 +52,9 @@ Class ArrayList
 	End Property
 	
 	Public Property Get Item(lngIndex)
-		[].Assert lngIndex >= 0 And lngIndex < lngCount, _
+		Assert lngIndex >= 0 And lngIndex < lngCount, _
 			"ArrayList", "Invaild Index. Expect 0 <= lngIndex < lngCount."
-		[].Set Item, arrData(lngIndex)
+		Assign Item, arrData(lngIndex)
 	End Property
 	
 	Public Property Let Item(lngIndex, varElement)
