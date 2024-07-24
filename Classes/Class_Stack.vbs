@@ -15,25 +15,13 @@ Class Stack
 		Set objDummyHead = New StackNode
 		lngCount = 0
 	End Sub
-
-	Private Function IsSame(Value1, Value2)
-		If IsObject(Value1) And IsObject(Value2) Then
-			IsSame = (Value1 Is Value2)
-		Else
-			IsSame = (Value1 = Value2)
-		End If
-	End Function
 	
 	'Push Count Clear Clone ToArray Contains Peek Pop
 
 	Public Sub Push(Value)
 		Dim objNode
 		Set objNode = New StackNode
-		If IsObject(Value) Then
-			Set objNode.Value = Value
-		Else
-			objNode.Value = Value
-		End If
+		objNode.Value = Wrap(Value)
 		Set objNode.[Next] = objDummyHead.[Next]
 		Set objDummyHead.[Next] = objNode
 		lngCount = lngCount + 1
@@ -75,10 +63,10 @@ Class Stack
 		Dim objNode
 		Set objNode = objDummyHead.[Next]
 		For i = 0 To lngCount - 1
-			If IsObject(objNode.Value) Then
-				Set arrResult(i) = objNode.Value
+			If IsObject(Unwrap(objNode.Value)) Then
+				Set arrResult(i) = Unwrap(objNode.Value)
 			Else
-				arrResult(i) = objNode.Value
+				arrResult(i) = Unwrap(objNode.Value)
 			End If
 			Set objNode = objNode.[Next]
 		Next
@@ -88,21 +76,15 @@ Class Stack
 	Public Function Contains(Value)
 		Dim objNode
 		Set objNode = objDummyHead.[Next]
+		Contains = False
 		Do While Not objNode Is Nothing
-			If IsObject(objNode.Value) Then
-				If objNode.Value Is Value Then
-					Contains = True
-					Exit Function
-				End If
-			Else
-				If objNode.Value = Value Then
-					Contains = True
-					Exit Function
-				End If
+			Contains = Contains Or TypeName(objNode.Value) = (NewValueBox(Value))
+			If Contains Then
+				Exit Function
 			End If
+			
 			Set objNode = objNode.[Next]
 		Loop
-		Contains = False
 	End Function
 
 	Public Function Peek()
@@ -112,10 +94,10 @@ Class Stack
 		
 		Dim objNode
 		Set objNode = objDummyHead.[Next]
-		If IsObject(objNode.Value) Then
-			Set Peek = objNode.Value
+		If IsObject(objNode.Value.Value) Then
+			Set Peek = objNode.Value.Value
 		Else
-			Peek = objNode.Value
+			Peek = objNode.Value.Value
 		End If
 	End Function
 
@@ -128,10 +110,10 @@ Class Stack
 		Set objNode = objDummyHead.[Next]
 		Set objDummyHead.[Next] = objNode.[Next]
 		lngCount = lngCount - 1
-		If IsObject(objNode.Value) Then
-			Set Pop = objNode.Value
+		If IsObject(objNode.Value.Value) Then
+			Set Pop = objNode.Value.Value
 		Else
-			Pop = objNode.Value
+			Pop = objNode.Value.Value
 		End If
 		Set objNode = Nothing
 	End Function
