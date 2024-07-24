@@ -18,10 +18,14 @@ Class Stack
 	
 	'Push Count Clear Clone ToArray Contains Peek Pop
 
-	Public Sub Push(Value)
+	Public Sub Push(varVal)
 		Dim objNode
 		Set objNode = New StackNode
-		objNode.Value = Wrap(Value)
+		If IsObject(varVal) Then
+			Set objNode.Value = varVal
+		Else
+			objNode.Value = varVal
+		End If
 		Set objNode.[Next] = objDummyHead.[Next]
 		Set objDummyHead.[Next] = objNode
 		lngCount = lngCount + 1
@@ -42,19 +46,19 @@ Class Stack
 	End Sub
 
 	Public Function Clone()
-		Dim objStack, objStack2
-		Set objStack = New Stack
+		Dim objRevStack
+		Set objRevStack = New Stack
+
 		Dim objNode
 		Set objNode = objDummyHead.[Next]
 		Do While Not objNode Is Nothing
-			objStack.Push objNode.Value
+			objRevStack.Push objNode.Value
 			Set objNode = objNode.[Next]
 		Loop
-		Set objStack2 = New Stack
-		Do While Not objStack.Count = 0
-			objStack2.Push objStack.Pop
+		Set Clone = New Stack
+		Do While Not objRevStack.Count = 0
+			Clone.Push objRevStack.Pop
 		Loop
-		Set Clone = objStack2
 	End Function
 
 	Public Function ToArray()
@@ -63,10 +67,10 @@ Class Stack
 		Dim objNode
 		Set objNode = objDummyHead.[Next]
 		For i = 0 To lngCount - 1
-			If IsObject(Unwrap(objNode.Value)) Then
-				Set arrResult(i) = Unwrap(objNode.Value)
+			If IsObject(objNode.Value) Then
+				Set arrResult(i) = objNode.Value
 			Else
-				arrResult(i) = Unwrap(objNode.Value)
+				arrResult(i) = objNode.Value
 			End If
 			Set objNode = objNode.[Next]
 		Next
@@ -78,7 +82,7 @@ Class Stack
 		Set objNode = objDummyHead.[Next]
 		Contains = False
 		Do While Not objNode Is Nothing
-			Contains = Contains Or TypeName(objNode.Value) = (NewValueBox(Value))
+			Contains = Contains Or TypeName(objNode.Value) = TypeName(Value)
 			If Contains Then
 				Exit Function
 			End If
@@ -94,10 +98,10 @@ Class Stack
 		
 		Dim objNode
 		Set objNode = objDummyHead.[Next]
-		If IsObject(objNode.Value.Value) Then
-			Set Peek = objNode.Value.Value
+		If IsObject(objNode.Value) Then
+			Set Peek = objNode.Value
 		Else
-			Peek = objNode.Value.Value
+			Peek = objNode.Value
 		End If
 	End Function
 
@@ -110,10 +114,10 @@ Class Stack
 		Set objNode = objDummyHead.[Next]
 		Set objDummyHead.[Next] = objNode.[Next]
 		lngCount = lngCount - 1
-		If IsObject(objNode.Value.Value) Then
-			Set Pop = objNode.Value.Value
+		If IsObject(objNode.Value) Then
+			Set Pop = objNode.Value
 		Else
-			Pop = objNode.Value.Value
+			Pop = objNode.Value
 		End If
 		Set objNode = Nothing
 	End Function
