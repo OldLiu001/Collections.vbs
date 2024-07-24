@@ -1,32 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component id="Collections">
-	<?component error="true" debug="true"?>
-	<registration
-		description="Collection Classes"
-		progid="Collections"
-		version="1.00"
-		classid="{20011228-5218-767e-8d85-632171029012}"
-	/>
-	<public>
-		<property name="LinkedList">
-			<get internalName="NewLinkedList" />
-		</property>
-		<property name="ArrayList">
-			<get internalName="NewArrayList" />
-		</property>
-	</public>
-	<script language="VBScript" src="Classes/Class_ArrayList.vbs" />
-	<script language="VBScript">
-		<![CDATA[
-			Option Explicit
+<package>
+	<component id="Collections">
+		<?component error="true" debug="true"?>
+		<registration
+			description="Collections.Stack Class"
+			progid="Collections.Stack"
+			version="1.00"
+			classid="{20011228-5218-767e-8d85-632171029012}"
+		/>
+		<public>
+			<method name="NewStack" internalName="NewStack" />
+		</public>
+		<script language="VBScript" src="Classes/Class_Stack.vbs" />
+		<script language="VBScript">
+			<![CDATA[
+				Option Explicit
 
-			Function NewLinkedList()
-				Set NewLinkedList = New LinkedList
-			End Function
 
-			Function NewArrayList()
-				Set NewArraylist = New ArrayList
-			End Function
-		]]>
-	</script>
-</component>
+			]]>
+		</script>
+	</component>
+</package>

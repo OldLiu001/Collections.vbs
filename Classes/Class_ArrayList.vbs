@@ -1,24 +1,8 @@
-'Capacity
-'Count
-'Item[Int32]
-'Add(Object)
-'Clear()
-'Clone()
-'Contains(Object)
-'GetRange(Int32, Int32)
-'IndexOf(Object) 'com hasn't
-'Insert(Int32, Object)
-'LastIndexOf(Object) 'com hasn't
-'Remove(Object)
-'RemoveAt(Int32)
-'RemoveRange(Int32, Int32)
-'Reverse()
-'Sort()
-'ToArray()
-'TrimToSize()
-
-
 Option Explicit
+
+Function NewArrayList()
+	Set NewArrayList = New ArrayList
+End Function
 
 Class ArrayList
 	Private lngCount
@@ -37,7 +21,6 @@ Class ArrayList
 			varDest = varSrc
 		End If
 	End Sub
-
 
 	Private Sub Inc(ByRef lngValue)
 		lngValue = lngValue + 1
@@ -84,6 +67,20 @@ Class ArrayList
 			"ArrayList", "Invaild Index. Expect 0 <= lngIndex < lngCount."
 		Assign arrData(lngIndex), objElement
 	End Property
+
+	'Default
+	Public Property Get Default(lngIndex)
+		Default = Item(lngIndex)
+	End Property
+
+	Public Property Let Default(lngIndex, varElement)
+		Item(lngIndex) = varElement
+	End Property
+
+	Public Property Set Default(lngIndex, objElement)
+		Set Item(lngIndex) = objElement
+	End Property
+
 	
 	Public Function Add(varValue)
 		Insert lngCount, varValue
